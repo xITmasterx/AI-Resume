@@ -5,7 +5,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environment variables
-.env
 .env.local
 .env.development.local
 .env.test.local
@@ -51,8 +50,8 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
+# dotenv environment variables file (only ignore .env.local, not .env)
+# .env is safe to commit (no credentials)
 
 # next.js build output
 .next
