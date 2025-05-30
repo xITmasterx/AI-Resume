@@ -156,16 +156,16 @@ class ResumeChat {
       if (data.success) {
         this.addMessage(data.response, "bot");
       } else {
-        this.addMessage(
-          "Sorry, I encountered an error. Please try again.",
-          "bot"
-        );
+        // Show the specific error message from the server
+        const errorMessage =
+          data.error || "Sorry, I encountered an error. Please try again.";
+        this.addMessage(errorMessage, "bot");
       }
     } catch (error) {
       console.error("Chat error:", error);
       this.removeMessage(typingId);
       this.addMessage(
-        "Sorry, I encountered an error. Please try again.",
+        "Sorry, I couldn't connect to the AI service. Please check your internet connection and try again.",
         "bot"
       );
     } finally {
@@ -303,7 +303,14 @@ class ResumeChat {
     const messageId = Date.now() + Math.random();
 
     messageDiv.className = `message ${sender}-message`;
-    messageDiv.textContent = text;
+
+    // For bot messages, parse markdown formatting
+    if (sender === "bot") {
+      messageDiv.innerHTML = this.parseMarkdown(text);
+    } else {
+      messageDiv.textContent = text;
+    }
+
     messageDiv.dataset.messageId = messageId;
 
     // Check if user is near bottom before adding message
@@ -389,6 +396,67 @@ class ResumeChat {
 
   clearMessages() {
     document.getElementById("chatMessages").innerHTML = "";
+  }
+
+  parseMarkdown(text) {
+    // Escape HTML to prevent XSS attacks
+    let html = text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+    // Parse markdown formatting
+    html = html
+      // Headers (must come before bold)
+      .replace(/^### (.*$)/gm, "<h3>$1</h3>")
+      .replace(/^## (.*$)/gm, "<h2>$1</h2>")
+      .replace(/^# (.*$)/gm, "<h1>$1</h1>")
+
+      // Bold and italic
+      .replace(/\*\*\*(.*?)\*\*\*/g, "<strong><em>$1</em></strong>")
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+
+      // Code blocks (must come before inline code)
+      .replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>")
+      .replace(/`(.*?)`/g, "<code>$1</code>")
+
+      // Lists (unordered) - handle various bullet point styles
+      .replace(/^\s*[-*+•]\s+(.*$)/gm, "<li>$1</li>")
+
+      // Lists (ordered)
+      .replace(/^\s*\d+\.\s+(.*$)/gm, "<li>$1</li>")
+
+      // Blockquotes
+      .replace(/^>\s+(.*$)/gm, "<blockquote>$1</blockquote>")
+
+      // Line breaks (double newlines become paragraphs)
+      .replace(/\n\n/g, "</p><p>")
+      .replace(/\n/g, "<br>");
+
+    // Wrap list items in ul tags
+    html = html.replace(/(<li>.*<\/li>)/gs, (match) => {
+      return "<ul>" + match + "</ul>";
+    });
+
+    // Clean up multiple consecutive ul tags
+    html = html.replace(/<\/ul>\s*<ul>/g, "");
+
+    // Wrap in paragraph tags if not already wrapped
+    if (
+      !html.includes("<p>") &&
+      !html.includes("<h") &&
+      !html.includes("<ul>") &&
+      !html.includes("<pre>")
+    ) {
+      html = "<p>" + html + "</p>";
+    } else if (html.includes("</p><p>")) {
+      html = "<p>" + html + "</p>";
+    }
+
+    return html;
   }
 
   showStatus(elementId, message, type) {

@@ -212,6 +212,19 @@ app.get("/test-api", async (req, res) => {
   }
 });
 
+// Test email connectivity
+app.get("/test-email", async (req, res) => {
+  try {
+    const result = await emailService.testConnection();
+    res.json(result);
+  } catch (error) {
+    res.json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
 // Error handling middleware
 app.use((error, req, res, next) => {
   if (error instanceof multer.MulterError) {

@@ -151,7 +151,9 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  height: 600px;
+  height: 50vh;
+  min-height: 300px;
+  max-height: 500px;
 }
 
 .chat-header {
@@ -172,16 +174,18 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
+  min-height: 0; /* Important for flex children to shrink */
+  overflow: hidden; /* Prevent container from expanding */
 }
 
 .chat-messages {
-  flex: 1;
+  flex: 1 1 350px; /* Grow, shrink, but start with 300px minimum */
   padding: 20px;
   overflow-y: auto;
   background: #f8f9fa;
-  max-height: 400px;
-  min-height: 300px;
   scroll-behavior: smooth;
+  min-height: 300px; /* Ensure messages area is always visible */
+  max-height: 100%; /* Prevent expansion beyond container */
 }
 
 /* Custom scrollbar for chat messages */
@@ -255,10 +259,95 @@ body {
   margin-right: auto;
 }
 
+/* Markdown formatting in messages */
+.message p {
+  margin: 0 0 8px 0;
+}
+
+.message p:last-child {
+  margin-bottom: 0;
+}
+
+.message ul,
+.message ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.message li {
+  margin: 4px 0;
+}
+
+.message strong,
+.message b {
+  font-weight: 600;
+}
+
+.message em,
+.message i {
+  font-style: italic;
+}
+
+.message code {
+  background: #f1f3f4;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: "Courier New", monospace;
+  font-size: 0.9em;
+}
+
+.message pre {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 8px 0;
+  border-left: 4px solid #667eea;
+}
+
+.message pre code {
+  background: none;
+  padding: 0;
+}
+
+.message blockquote {
+  border-left: 4px solid #dee2e6;
+  padding-left: 12px;
+  margin: 8px 0;
+  color: #666;
+  font-style: italic;
+}
+
+.message h1,
+.message h2,
+.message h3,
+.message h4,
+.message h5,
+.message h6 {
+  margin: 12px 0 8px 0;
+  font-weight: 600;
+}
+
+.message h1 {
+  font-size: 1.2em;
+}
+.message h2 {
+  font-size: 1.15em;
+}
+.message h3 {
+  font-size: 1.1em;
+}
+.message h4,
+.message h5,
+.message h6 {
+  font-size: 1.05em;
+}
+
 .chat-input-form {
-  padding: 20px;
+  padding: 15px 20px;
   background: white;
   border-top: 1px solid #dee2e6;
+  flex-shrink: 0; /* Prevent the input form from shrinking */
 }
 
 .input-group {
@@ -365,12 +454,9 @@ body {
   }
 
   .chat-section {
-    height: 500px;
-  }
-
-  .chat-messages {
-    max-height: 300px;
-    min-height: 250px;
+    height: 50vh;
+    min-height: 300px;
+    max-height: 500px;
   }
 
   .chat-header {

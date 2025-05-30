@@ -112,13 +112,13 @@ The application will be available at `http://localhost:3000`
 
 ## AI Model Information
 
-The application uses **OpenRouter API** with the **DeepSeek R1T Chimera** model:
+The application uses **OpenRouter API** with the **DeepSeek Chat V3** model:
 
-- **Model**: `tngtech/deepseek-r1t-chimera:free`
+- **Model**: `deepseek/deepseek-chat-v3-0324:free`
 - **Cost**: Completely free
-- **Quality**: High-quality responses with reasoning capabilities
-- **Speed**: Fast response times
-- **Fallback**: Rule-based responses if API fails
+- **Quality**: High-quality conversational responses
+- **Speed**: Fast response times with 60-second timeout
+- **Error Handling**: Clear error messages if API fails
 
 ### Alternative Options
 
@@ -175,4 +175,5 @@ npm run dev
 ## License
 
 This project is for demonstration purposes. Feel free to modify and use as needed.
+
 # AI-Resume
