@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Chat Application</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Resume Chat Application</h1>
+        <p>Upload a resume and start chatting about it!</p>
+      </header>
+
+      <main class="main-content">
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection">
+          <div class="upload-card">
+            <h2>Upload Resume</h2>
+            <form id="uploadForm" enctype="multipart/form-data">
+              <div class="file-input-wrapper">
+                <input
+                  type="file"
+                  id="resumeFile"
+                  name="resume"
+                  accept=".docx"
+                  required
+                />
+                <label for="resumeFile" class="file-input-label">
+                  <span class="file-icon">📄</span>
+                  <span class="file-text">Choose .docx file</span>
+                </label>
+              </div>
+              <button type="submit" class="upload-btn">
+                Upload & Parse Resume
+              </button>
+            </form>
+            <div id="uploadStatus" class="status-message"></div>
+          </div>
+        </section>
+
+        <!-- Chat Section -->
+        <section class="chat-section" id="chatSection" style="display: none">
+          <div class="chat-header">
+            <h2 id="candidateName">Chat about Resume</h2>
+            <button id="clearSessionBtn" class="clear-btn">
+              Clear Session
+            </button>
+          </div>
+
+          <div class="chat-container">
+            <div id="chatMessages" class="chat-messages"></div>
+
+            <!-- Scroll to bottom button -->
+            <button
+              id="scrollToBottomBtn"
+              class="scroll-to-bottom"
+              title="Scroll to bottom"
+            >
+              ↓
+            </button>
+
+            <form id="chatForm" class="chat-input-form">
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="messageInput"
+                  placeholder="Ask a question about the resume..."
+                  required
+                />
+                <button type="submit" class="send-btn">Send</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Email Section -->
+        <section class="email-section" id="emailSection" style="display: none">
+          <div class="email-card">
+            <h3>Send Chat Summary</h3>
+            <form id="emailForm">
+              <div class="input-group">
+                <input
+                  type="email"
+                  id="emailInput"
+                  placeholder="Enter email address..."
+                  required
+                />
+                <button type="submit" class="email-btn">Send Summary</button>
+              </div>
+            </form>
+            <div id="emailStatus" class="status-message"></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Resume Chat Application - Demo Version</p>
+      </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none">
+      <div class="loading-spinner"></div>
+      <p>Processing...</p>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
