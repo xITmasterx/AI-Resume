@@ -1,23 +1,18 @@
-# Deployment Guide
+# Deployment Guide - Secure Resume Chat App
 
-## Quick Deploy Options
+This guide explains how to deploy your Resume Chat Application while keeping your API keys and passwords secure.
 
-### Option 1: Railway (Recommended - Free Tier Available)
+## 🔒 Security Overview
 
-1. **Sign up at [Railway](https://railway.app/)**
-2. **Connect your GitHub repository**
-3. **Deploy with one click**
-4. **Set environment variables in Railway dashboard:**
-   - `OPENROUTER_API_KEY`: Your OpenRouter API key
-   - `OPENROUTER_MODEL`: deepseek/deepseek-v3-base:free
-   - `EMAIL_HOST`: smtp.gmail.com
-   - `EMAIL_PORT`: 587
-   - `EMAIL_SECURE`: false
-   - `EMAIL_USER`: your_email@gmail.com
-   - `EMAIL_PASS`: your_gmail_app_password
-   - `MAX_FILE_SIZE`: 10485760
+Your repository is configured for secure deployment:
 
-### Option 2: Render (Free Tier Available)
+- ✅ **Safe to push to GitHub**: No credentials in version control
+- ✅ **Local development**: Uses `.env.local` (ignored by Git)
+- ✅ **Production deployment**: Uses platform environment variables
+
+## 🚀 Quick Deploy Options
+
+### Option 1: Render (Recommended - Free Tier Available)
 
 1. **Sign up at [Render](https://render.com/)**
 2. **Create a new Web Service**
@@ -26,7 +21,26 @@
    - Build Command: `npm install`
    - Start Command: `npm start`
    - Environment: Node
-5. **Add environment variables** (same as Railway)
+5. **Set environment variables in Render dashboard:**
+   ```
+   NODE_ENV=production
+   OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
+   EMAIL_USER=your_actual_email@gmail.com
+   EMAIL_PASS=your_actual_app_password_here
+   ```
+
+### Option 2: Railway (Free Tier Available)
+
+1. **Sign up at [Railway](https://railway.app/)**
+2. **Connect your GitHub repository**
+3. **Deploy with one click**
+4. **Set environment variables in Railway dashboard:**
+   ```
+   NODE_ENV=production
+   OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
+   EMAIL_USER=your_actual_email@gmail.com
+   EMAIL_PASS=your_actual_app_password_here
+   ```
 
 ### Option 3: Heroku (Paid)
 
@@ -55,22 +69,37 @@
 4. **Configure environment variables**
 5. **Deploy**
 
-## Environment Variables Required
+## 🔧 How Environment Loading Works
 
-Copy from `.env.example` and update with your actual values:
+The application automatically detects the environment:
 
-- `OPENROUTER_API_KEY`: Get from https://openrouter.ai/
-- `EMAIL_USER` & `EMAIL_PASS`: Gmail credentials (use App Password)
-- Other variables can use default values
+```javascript
+// In development: loads .env.local (not committed to Git)
+// In production: uses platform environment variables
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config({ path: ".env.local" });
+}
+```
 
-## Local Development
+## 📋 Required Environment Variables
+
+| Variable             | Description        | Required | Example               |
+| -------------------- | ------------------ | -------- | --------------------- |
+| `NODE_ENV`           | Environment type   | Yes      | `production`          |
+| `OPENROUTER_API_KEY` | OpenRouter API key | Yes      | `sk-or-v1-...`        |
+| `EMAIL_USER`         | Gmail address      | Yes      | `your@gmail.com`      |
+| `EMAIL_PASS`         | Gmail app password | Yes      | `abcd efgh ijkl mnop` |
+
+## 🏠 Local Development Setup
 
 1. **Clone repository**
 2. **Install dependencies:** `npm install`
-3. **Copy environment file:** `cp .env.example .env`
-4. **Update .env with your credentials**
+3. **Create local environment file:** `cp .env.local.example .env.local`
+4. **Update .env.local with your actual credentials**
 5. **Start server:** `npm start`
 6. **Visit:** http://localhost:3000
+
+> **Note**: Never commit `.env.local` - it's automatically ignored by Git!
 
 ## Features
 

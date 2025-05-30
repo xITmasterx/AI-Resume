@@ -1,4 +1,15 @@
-require("dotenv").config();
+// Load environment variables
+require("dotenv").config(); // Load .env first
+
+// In production (like Render), environment variables are set directly
+// In development, load .env.local if it exists
+if (process.env.NODE_ENV !== "production") {
+  try {
+    require("dotenv").config({ path: ".env.local" }); // Load .env.local (overrides .env)
+  } catch (error) {
+    // .env.local doesn't exist, which is fine
+  }
+}
 const express = require("express");
 const multer = require("multer");
 const path = require("path");

@@ -29,27 +29,28 @@ npm install
 
 ### 2. Configure Environment Variables
 
-Copy the `.env` file and update it with your credentials:
+**For Security: Create a separate file for your credentials:**
+
+```bash
+cp .env.local.example .env.local
+```
+
+Edit the `.env.local` file with your actual API keys and passwords:
 
 ```env
-# Server Configuration
-PORT=3000
+# Local Environment Variables - KEEP THIS FILE SECURE AND PRIVATE
+# This file contains your actual API keys and passwords
+# DO NOT commit this file to version control
 
-# Hugging Face API Configuration (Free tier)
-HUGGINGFACE_API_KEY=your_huggingface_api_key_here
-HUGGINGFACE_MODEL=microsoft/DialoGPT-medium
+# OpenRouter API Configuration
+OPENROUTER_API_KEY=your_actual_openrouter_api_key_here
 
-# Email Configuration (Gmail SMTP example)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_SECURE=false
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password_here
-
-# Application Settings
-MAX_FILE_SIZE=10485760
-ALLOWED_FILE_TYPES=.docx
+# Email Configuration
+EMAIL_USER=your_actual_email@gmail.com
+EMAIL_PASS=your_actual_app_password_here
 ```
+
+> **🔒 Security Note:** The `.env.local` file contains your sensitive credentials and is automatically ignored by Git. Never commit this file to version control!
 
 ### 3. Get Free API Keys
 
@@ -59,14 +60,14 @@ ALLOWED_FILE_TYPES=.docx
 2. Create a free account
 3. Go to [API Keys](https://openrouter.ai/keys)
 4. Create a new API key
-5. Copy the key to your `.env` file
+5. Copy the key to your `.env.local` file
 
 #### Gmail SMTP (Free)
 
 1. Enable 2-factor authentication on your Gmail account
 2. Go to Google Account settings > Security
 3. Generate an "App Password" for this application
-4. Use your Gmail address and the app password in `.env`
+4. Use your Gmail address and the app password in `.env.local`
 
 ### 4. Run the Application
 
